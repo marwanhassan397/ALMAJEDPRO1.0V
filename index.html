@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <base href="/" />
+    <script>
+      (function () {
+        // Detect the app base path so the same build can run on "/" or "/some-subfolder/".
+        // This is needed for deep SPA routes so relative assets and "./api/*" resolve correctly.
+        var path = window.location.pathname || "/";
+        var knownRoutes = ["/admin/public-profiles", "/profile/public"];
+        var base = "/";
+        for (var i = 0; i < knownRoutes.length; i++) {
+          var r = knownRoutes[i];
+          var idx = path.indexOf(r);
+          if (idx >= 0) {
+            base = idx === 0 ? "/" : path.substring(0, idx) + "/";
+            break;
+          }
+        }
+        // Home page inside a subfolder like "/almajd/" or "/almajd"
+        if (base === "/" && path !== "/" && path.endsWith("/")) {
+          base = path;
+        } else if (base === "/" && path !== "/" && !path.endsWith("/")) {
+          var last = path.split("/").pop() || "";
+          if (last && last.indexOf(".") === -1) {
+            base = path + "/";
+          }
+        }
+        window.__APP_BASE_PATH__ = base;
+        var baseEl = document.querySelector("base");
+        if (baseEl) baseEl.setAttribute("href", base);
+      })();
+    </script>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Al‑Majd Al‑Arabi Al‑Hadith for General Contracting & Industrial Fabrication in Saudi Arabia."
+    />
+    <meta name="theme-color" content="#0f172a" />
+
+    <!-- Social sharing -->
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:title"
+      content="Al‑Majd Al‑Arabi Al‑Hadith | General Contracting & Industrial Fabrication"
+    />
+    <meta
+      property="og:description"
+      content="High-quality contracting and industrial fabrication solutions across Saudi Arabia."
+    />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Inter:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Al‑Majd Al‑Arabi Al‑Hadith | General Contracting & Industrial Fabrication</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
