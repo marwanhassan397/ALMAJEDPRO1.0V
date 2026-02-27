@@ -32,7 +32,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const refreshAuth = async () => {
     try {
-      const data = await apiJson<CheckAuthResponse>('/check-auth.php', { method: 'GET' });
+      const data = await apiJson<CheckAuthResponse>('/check-auth', { method: 'GET' });
       setUser(data.authenticated ? data.user ?? { username: 'admin' } : null);
     } catch (e) {
       // If the API is unreachable or returns invalid JSON, treat as logged out.
@@ -58,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signIn = async (username: string, password: string) => {
     try {
-      const data = await apiJson<LoginResponse>('/login.php', {
+      const data = await apiJson<LoginResponse>('/login', {
         method: 'POST',
         body: { username, password },
       });
@@ -76,7 +76,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
-      await apiJson<{ authenticated: false }>('/logout.php', { method: 'POST' });
+      await apiJson<{ authenticated: false }>('/logout', { method: 'POST' });
     } catch (e) {
       // Even if logout fails, clear local state
       console.warn('logout failed', e);

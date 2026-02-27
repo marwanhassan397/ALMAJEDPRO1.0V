@@ -2,15 +2,10 @@ import { APP_BASE_PATH } from './basePath';
 
 /**
  * IMPORTANT:
- * - Uses Vite BASE_URL so the same codebase works on:
- *   - ROOT (/)  -> BASE_URL="/"
- *   - Subfolder (/almajd/) -> BASE_URL="/almajd/"
- *
- * Note:
- * - In production, index.html writes a correct <base href="..."> at runtime, so even when
- *   BASE_URL is relative ("./"), relative fetch URLs resolve to the app root.
+ * - In development, uses proxy to Node.js backend at /api
+ * - In production, expects API to be available at /api
  */
-export const API_BASE = `${import.meta.env.BASE_URL}api`;
+export const API_BASE = '/api';
 
 /** Ensure we don't accidentally create double slashes. */
 const joinUrl = (base: string, path: string) => {

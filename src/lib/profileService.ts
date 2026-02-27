@@ -77,12 +77,12 @@ type ApiProfileResponse = { success: true; profile: PublicProfile };
 type ApiProfilesResponse = { success: true; profiles: PublicProfile[] };
 
 export const fetchAllProfiles = async () => {
-  const data = await apiJson<ApiProfilesResponse>('/admin/profiles.php', { method: 'GET' });
+  const data = await apiJson<ApiProfilesResponse>('/admin/profiles', { method: 'GET' });
   return data.profiles;
 };
 
 export const fetchPublicProfileByPublicIdOrDefault = async (publicId: number) => {
-  const data = await apiJson<ApiProfileResponse>(`/public-profile.php?publicId=${encodeURIComponent(String(publicId))}`, {
+  const data = await apiJson<ApiProfileResponse>(`/public-profile?publicId=${encodeURIComponent(String(publicId))}`, {
     method: 'GET',
   });
   return data.profile;
@@ -91,7 +91,7 @@ export const fetchPublicProfileByPublicIdOrDefault = async (publicId: number) =>
 export const upsertProfile = async (
   input: Omit<PublicProfile, 'slug' | 'createdAt'> & { id?: string }
 ): Promise<PublicProfile> => {
-  const data = await apiJson<ApiProfileResponse>('/admin/profiles.php', {
+  const data = await apiJson<ApiProfileResponse>('/admin/profiles', {
     method: 'POST',
     body: {
       id: input.id,
@@ -109,7 +109,7 @@ export const upsertProfile = async (
 };
 
 export const deleteProfile = async (id: string) => {
-  await apiJson<{ success: true }>('/admin/profiles.php?id=' + encodeURIComponent(id), {
+  await apiJson<{ success: true }>('/admin/profiles?id=' + encodeURIComponent(id), {
     method: 'DELETE',
   });
 };

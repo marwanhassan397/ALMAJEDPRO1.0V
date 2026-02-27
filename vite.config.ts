@@ -13,11 +13,11 @@ export default defineConfig({
     exclude: ['lucide-react'],
   },
   server: {
-    // Optional convenience for local development:
-    // If you run Apache/PHP on http://localhost (XAMPP),
-    // Vite dev server (http://localhost:5173) can proxy API calls.
     proxy: {
-      '/api': 'http://localhost',
+      '/api': {
+        target: 'http://localhost:3001',
+        changeOrigin: true,
+      },
     },
   },
 });
