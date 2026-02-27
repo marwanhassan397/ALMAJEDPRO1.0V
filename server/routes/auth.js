@@ -20,7 +20,17 @@ router.post('/login', async (req, res) => {
       [username]
     );
 
-    if (rows.length === 0 || !await bcrypt.compare(password, rows[0].password_hash)) {
+    if (rows.length === 0) {
+      return res.status(401).json({
+        authenticated: false,
+        message: 'Invalid username or password'
+      });
+    }
+
+    const hash = rows[0].password_hash.replace(/^\$2y\$/, '$2a$');
+    const isValid = await bcrypt.compare(password, hash);
+
+    if (!isValid) {
       return res.status(401).json({
         authenticated: false,
         message: 'Invalid username or password'
