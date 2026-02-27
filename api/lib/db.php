@@ -19,15 +19,12 @@ function db(): PDO
         throw new RuntimeException('Database configuration is missing (DB_NAME / DB_USER).');
     }
 
-    $dsn = sprintf('pgsql:host=%s;port=%s;dbname=%s', $host, $port, $name);
+    $dsn = sprintf('mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4', $host, $port, $name);
 
     $pdo = new PDO($dsn, $user, $pass, [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
-
-    // Ensure UTF-8
-    $pdo->exec("SET client_encoding TO 'UTF8'");
 
     return $pdo;
 }
